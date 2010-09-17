@@ -63,6 +63,10 @@ or in clone/.git/config (for per-repo settings).
 		s3key=<s3 access key>
 		s3secret=<s3 secret key>
 
+=== Config Settings
+
+	$ git config --global media.auto-download false
+
 == Usage
 
 	(in repo - repeatedly)
@@ -77,10 +81,6 @@ Which will show you files that are waiting to be uploaded and how much data
 that is. If you want to upload & delete the local cache of media files, run:
 
 	$ git media clear
-
-== Config Settings
-
-	$ git config --global media.auto-download false
 
 == Notes for Windows
 It is important to switch off git smart newline character support for media files. 
