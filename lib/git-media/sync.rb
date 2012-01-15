@@ -16,7 +16,7 @@ module GitMedia
     def self.expand_references
       status = GitMedia::Status.find_references
       status[:to_expand].each do |file, sha|
-        cache_file = GitMedia.media_path(sha)
+        cache_file = GitMedia.media_path_shafile(sha)
         if !File.exist?(cache_file)
           puts "Downloading " + sha[0,8] + " : " + file
           @pull.pull(file, sha) 

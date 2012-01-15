@@ -3,12 +3,12 @@ module GitMedia
     class Base
 
       def pull(final_file, sha)
-        to_file = GitMedia.media_path(sha)
+        to_file = GitMedia.media_path_shafile(sha)
         get_file(sha, to_file)
       end
 
       def push(sha)
-        from_file = GitMedia.media_path(sha)
+        from_file = GitMedia.media_path_shafile(sha)
         put_file(sha, from_file)
       end
 

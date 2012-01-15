@@ -10,10 +10,14 @@ module GitMedia
       media_buffer = GitMedia.get_media_buffer
 
       hashfunc = Digest::SHA1.new
+      hashfunc2 = Digest::SHA1.new
       start = Time.now
 
       # TODO: read first 41 bytes and see if this is a stub
+      #MLF: Need to do to make sure we don't mishash it (metahash it)
       
+            
+
       # read in buffered chunks of the data
       #  calculating the SHA and copying to a tempfile
       tempfile = Tempfile.new('media')
@@ -24,12 +28,15 @@ module GitMedia
       tempfile.close
 
       # calculate and print the SHA of the data
-      STDOUT.print hx = hashfunc.hexdigest 
+      hx = hashfunc.hexdigest
+      blobref = GitMedia.media_ref(hx)
+      STDOUT.print blobref
       STDOUT.binmode
       STDOUT.write("\n")
 
       # move the tempfile to our media buffer area
-      media_file = File.join(media_buffer, hx)
+      media_file = GitMedia.media_path_shanum(hx) 
+#File.join(media_buffer, "sha1_"+hx+".blob")
       FileUtils.mv(tempfile.path, media_file)
 
       elapsed = Time.now - start

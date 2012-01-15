@@ -13,10 +13,41 @@ module GitMedia
     return media_buffer
   end
 
-  def self.media_path(sha)
-    buf = self.get_media_buffer
-    File.join(buf, sha)    
+  def self.check_ref(sharef)
+    sharef.length == 50 && sharef.match(/^sha1\_[0-9a-fA-F]+\.blob$/) != nil
   end
+
+  def self.media_ref(sha)
+    "sha1_"+sha+".blob"
+  end
+
+  def self.media_ref_size
+    #5+40+5
+    50
+  end
+
+  def self.media_ref_size2
+    51
+  end
+
+  def self.media_path_shanum(shanum)
+    buf = self.get_media_buffer
+    ref = media_ref(shanum)
+    File.join(buf, ref)    
+  end
+
+  def self.media_path_sharef(sharef)
+    buf = self.get_media_buffer
+    ref = sharef
+    File.join(buf, ref)
+  end
+
+  def self.media_path_shafile(shafile) 
+    buf = self.get_media_buffer
+    ref = shafile
+    File.join(buf, ref)
+  end 
+
   
   # TODO: select the proper transports based on settings
   def self.get_push_transport

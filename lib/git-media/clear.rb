@@ -14,8 +14,8 @@ module GitMedia
       unpushed_files = @push.get_unpushed(all_cache)
       pushed_files = all_cache - unpushed_files
       pushed_files.each do |sha|
-        puts "removing " + sha[0, 8]
-        File.unlink(File.join(GitMedia.get_media_buffer, sha))
+        puts "removing " + sha
+        File.unlink(GitMedia.media_path_sharef(sha) 
       end
     end
     

@@ -13,16 +13,22 @@ module GitMedia
     
     # find tree entries that are likely media references
     def self.find_references
+      media_file_ref_size = GitMedia.media_ref_size2 
+
       references = {:to_expand => [], :expanded => [], :deleted => []}
       files = `git ls-tree -l -r HEAD`.split("\n")
       files = files.map { |f| s = f.split("\t"); [s[0].split(' ').last, s[1]] }
-      files = files.select { |f| f[0] == '41' } # it's the right size
+      files = files.select { |f| f[0].to_i == media_file_ref_size.to_i } # it's the right size (MLF: Really just needs to be about right)
       files.each do |tree_size, fname|
-        if size = File.size?(fname)
-          if size == tree_size.to_i
+#        puts "== Testing: #{tree_size}, #{media_file_ref_size}, #{fname}, #{file_size}"
+        file_size = File.size?(fname)
+        puts "== Testing: #{tree_size}, #{media_file_ref_size}, #{tree_size.to_i == media_file_ref_size.to_i}, #{fname}, #{file_size}"
+
+        if file_size > 0
+          if file_size == tree_size.to_i
             # TODO: read in the data and verify that it's a sha + newline
             sha = File.read(fname).strip
-            if sha.length == 40
+            if GitMedia.check_ref(sha)
               references[:to_expand] << [fname, sha]
             end
           else
@@ -65,7 +71,7 @@ module GitMedia
       if refs[:unpushed].size > 0
         puts "== Unpushed Media =="
         refs[:unpushed].each do |sha|
-          cache_file = GitMedia.media_path(sha)
+          cache_file = GitMedia.media_path_shafile(sha)
           size = File.size(cache_file)
           puts "   " + "(#{self.to_human(size)})".ljust(8) + ' ' + sha[0, 8]
         end
@@ -74,7 +80,7 @@ module GitMedia
       if refs[:pushed].size > 0
         puts "== Already Pushed Media =="
         refs[:pushed].each do |sha|
-          cache_file = GitMedia.media_path(sha)
+          cache_file = GitMedia.media_path_shafile(sha)
           size = File.size(cache_file)
           puts "   " + "(#{self.to_human(size)})".ljust(8) + ' ' + sha[0, 8]          
         end
@@ -105,3 +111,4 @@ module GitMedia
     
   end
 end
+
