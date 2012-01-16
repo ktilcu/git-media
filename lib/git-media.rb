@@ -38,7 +38,7 @@ module GitMedia
     if @sha_file_suffix == nil then
       @sha_file_suffix =  `git config git-media.sha-file-suffix`.chomp
     end
-    @sha_file_prefix
+    @sha_file_suffix
   end
 
 
@@ -151,6 +151,9 @@ module GitMedia
         when "sync"
           require 'git-media/sync'
           GitMedia::Sync.run!
+        when "fetch"
+          require 'git-media/fetch'
+          GitMedia::Fetch.run! ARGV
         when 'status'
           require 'git-media/status'
           Trollop::options do
@@ -158,7 +161,7 @@ module GitMedia
           end
           GitMedia::Status.run!
         else
-          raise "unknown media subcommand #{cmd.inspect}"
+          raise "unknown media subcommand #{cmd.inspect} -- known commands 'clear' , 'sync', 'status' "
       end
 
     end

@@ -18,8 +18,8 @@ module GitMedia
       status[:to_expand].each do |file, sha|
         cache_file = GitMedia.media_path_shafile(sha)
         if !File.exist?(cache_file)
-          puts "Downloading " + sha[0,8] + " : " + file
-          @pull.pull(file, sha) 
+          puts "Downloading " + sha[0,8] + " : " + cache_file
+          @pull.pull(cache_file, sha)
         end
 
         puts "Expanding  " + sha[0,8] + " : " + file
