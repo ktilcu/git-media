@@ -5,7 +5,8 @@ require 'tempfile'
 module GitMedia
   module FilterClean
 
-    def self.run!
+    def self.run!(args)
+      STDERR.puts("Cleaning: #{args}")
       hashfunc = Digest::SHA1.new
 
       #This could be used to create a git-hash identifier along with the normal identifier

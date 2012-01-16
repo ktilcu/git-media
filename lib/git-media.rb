@@ -141,7 +141,7 @@ module GitMedia
       case cmd
         when "filter-clean" # parse delete options
           require 'git-media/filter-clean'
-          GitMedia::FilterClean.run!
+          GitMedia::FilterClean.run! ARGV
         when "filter-smudge"
           require 'git-media/filter-smudge'
           GitMedia::FilterSmudge.run!

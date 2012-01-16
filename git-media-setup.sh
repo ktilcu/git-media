@@ -1,5 +1,5 @@
-git config filter.media.clean "git-media filter-clean"
-git config filter.media.smudge "git-media filter-smudge"
+git config filter.media.clean "git-media filter-clean %s"
+git config filter.media.smudge "git-media filter-smudge %s"
 
 
 git config git-media.sha-file-prefix "{prefix could be blank or 'sha1_' or similar}"
