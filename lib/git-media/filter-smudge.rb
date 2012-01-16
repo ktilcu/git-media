@@ -11,7 +11,7 @@ module GitMedia
       sha = line.strip # read no more than 64 bytes
       if STDIN.eof? && GitMedia.check_ref(sha) 
         # this is a media file stub
-        media_file = GitMedia.media_path_sharef(sha)
+        media_file = GitMedia.media_path_from_sharef(sha)
         if File.exists?(media_file)
           STDERR.puts('recovering media : ' + sha)
           File.open(media_file, 'r') do |f|
