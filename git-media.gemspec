@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
      "VERSION",
      "bin/git-media",
      "git-media.gemspec",
+     "lib/git-media/annex.rb",
      "lib/git-media/clear.rb",
      "lib/git-media/fetch.rb",
      "lib/git-media/filter-clean.rb",

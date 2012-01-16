@@ -154,6 +154,9 @@ module GitMedia
         when "fetch"
           require 'git-media/fetch'
           GitMedia::Fetch.run! ARGV
+        when "annex"
+          require 'git-media/annex'
+          GitMedia::Annex.run! ARGV
         when 'status'
           require 'git-media/status'
           Trollop::options do

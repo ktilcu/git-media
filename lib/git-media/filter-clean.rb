@@ -24,7 +24,7 @@ module GitMedia
 
         #Unfortunately this probably already has the wrong hash, so it will look like an inbound change...
         #Or in essence, the hash of the sha_ref content and the hash of the actual content produce the same results
-        STDERR.puts("Ignored cleaning of a sha_ref file #{sha}")
+        STDERR.puts("Ignored cleaning/annexing of a sha_ref file #{sha}")
 
         STDOUT.print line
 
