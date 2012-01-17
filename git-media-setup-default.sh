@@ -2,8 +2,8 @@ git config filter.media.clean "git-media filter-clean %f"
 git config filter.media.smudge "git-media filter-smudge %f"
 
 
-git config git-media.sha-file-prefix "{prefix could be blank or 'sha1_' or similar}"
-git config git-media.sha-file-suffix "{suffix could be blank or '.blob' or similar}"
+git config git-media.sha-file-prefix "sha1_"
+git config git-media.sha-file-suffix ".blob"
 
 #==================
 #=== Transports

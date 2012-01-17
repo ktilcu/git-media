@@ -47,6 +47,7 @@ module GitMedia
           hx = hashfunc.hexdigest
           blobref = GitMedia.sharef_from_shanum(hx)
 
+
           tempfile = Tempfile.new('blobref')
           tempfile.print blobref
           tempfile.binmode
@@ -57,6 +58,7 @@ module GitMedia
           media_file = GitMedia.media_path_from_shanum(hx)
 
           file_path = file.path
+          #if FileTest.exist?(media_file)
           FileUtils.mv(file_path, media_file)
           FileUtils.mv(tempfile.path, file_path)
 
