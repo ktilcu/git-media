@@ -2,11 +2,9 @@ module GitMedia
   module FilterSmudge
 
     def self.run!
-      media_buffer = GitMedia.get_media_buffer
       can_download = false # TODO: read this from config and implement
       
       # read checksum size
-      media_ref_size = GitMedia.media_ref_size
       line = STDIN.read(64)
       sha = line.strip # read no more than 64 bytes
       if STDIN.eof? && GitMedia.check_ref(sha) 

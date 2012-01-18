@@ -43,6 +43,8 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.1}
   s.summary = %q{"This is a summary! Stop yer whining"}
+  s.add_dependency "trollop"
+  s.add_dependency "s3"
   s.add_dependency "right_aws"
 
   if s.respond_to? :specification_version then
