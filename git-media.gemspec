@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
      "lib/git-media/fetch.rb",
      "lib/git-media/filter-clean.rb",
      "lib/git-media/filter-smudge.rb",
+     "lib/git-media/hash.rb",
      "lib/git-media/status.rb",
      "lib/git-media/sync.rb",
      "lib/git-media/transport",
@@ -44,8 +45,9 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.1}
   s.summary = %q{"This is a summary! Stop yer whining"}
   s.add_dependency "trollop"
-  s.add_dependency "s3"
-  s.add_dependency "right_aws"
+  #s.add_dependency "s3"
+  #s.add_dependency "right_aws"
+  s.add_dependency "aws-s3"
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION

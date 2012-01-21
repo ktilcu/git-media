@@ -157,6 +157,9 @@ module GitMedia
         when "annex"
           require 'git-media/annex'
           GitMedia::Annex.run! ARGV
+        when "hash"
+          require 'git-media/hash'
+          GitMedia::Hash.run! ARGV
         when 'status'
           require 'git-media/status'
           Trollop::options do
