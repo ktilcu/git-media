@@ -142,6 +142,9 @@ module GitMedia
         when "filter-clean" # parse delete options
           require 'git-media/filter-clean'
           GitMedia::FilterClean.run! ARGV
+        when "filter-clean-nonew" # parse delete options
+          require 'git-media/filter-clean-nonew'
+          GitMedia::FilterCleanNoNew.run! ARGV
         when "filter-smudge"
           require 'git-media/filter-smudge'
           GitMedia::FilterSmudge.run!
@@ -154,6 +157,9 @@ module GitMedia
         when "fetch"
           require 'git-media/fetch'
           GitMedia::Fetch.run! ARGV
+        when "expand"
+          require 'git-media/expand'
+          GitMedia::Expand.run! ARGV
         when "annex"
           require 'git-media/annex'
           GitMedia::Annex.run! ARGV
@@ -167,7 +173,7 @@ module GitMedia
           end
           GitMedia::Status.run!
         else
-          raise "unknown media subcommand #{cmd.inspect} -- known commands 'clear' , 'sync', 'status' "
+          raise "unknown media subcommand #{cmd.inspect} -- known commands 'clear' , 'sync', 'status', 'fetch' "
       end
 
     end

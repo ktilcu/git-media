@@ -13,9 +13,9 @@ module GitMedia
 
       def initialize(bucket_name, access_key_id = nil, secret_access_key = nil)
         AWS::S3::Base.establish_connection!(
-            :access_key_id     => access_key_id,
-            :secret_access_key => secret_access_key
-          )
+                :access_key_id => access_key_id,
+                :secret_access_key => secret_access_key
+        )
 
         #@s3 = RightAws::S3Interface.new(access_key_id, secret_access_key,
         #      {:multi_thread => true}) #, :logger => Logger.new('/tmp/s3.log')})
@@ -34,11 +34,17 @@ module GitMedia
       #end
       #
       def get_file(sha, to_file)
-        open(to_file, 'w') do |file|
-          AWS::S3::S3Object.stream("#{@bucket_path}#{sha}", @bucket_name) do |chunk|
+        if @bucket["#{@bucket_path}#{sha}"]
+          open(to_file, 'w') do |file|
+            file.binmode
+            AWS::S3::S3Object.stream("#{@bucket_path}#{sha}", @bucket_name) do |chunk|
               file.write chunk
             end
+          end
+        else
+          puts "No remote file: #{@bucket_path}#{sha}"
         end
+
         #to = File.new(to_file, File::CREAT|File::RDWR)
         #@s3.get(@bucket, sha) do |chunk|
         #  to.write(chunk)

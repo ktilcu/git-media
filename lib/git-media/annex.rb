@@ -15,6 +15,7 @@ module GitMedia
 
       args.each do |fname|
         file = File.new(fname)
+        file.binmode
 
         hashfunc = Digest::SHA1.new
 

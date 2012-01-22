@@ -3,7 +3,7 @@ require 'fileutils'
 require 'tempfile'
 
 module GitMedia
-  module FilterClean
+  module FilterCleanNoNew
 
     def self.run!(args)
       STDOUT.binmode
@@ -21,13 +21,8 @@ module GitMedia
       #hashfunc2 = Digest::SHA1.new
       start = Time.now
 
-      elapsed1 = start
-
       # TODO: read first 41 bytes and see if this is a stub
       #MLF: Need to do to make sure we don't mishash it (metahash it)
-
-      sha_info = "{unknown}"
-      length = 0
 
       line = STDIN.read(64)
       sha = line.strip # read no more than 64 bytes
@@ -41,60 +36,20 @@ module GitMedia
           #STDOUT.write data
         end
       else
-        STDERR.puts("This could/should be a media file")
         hashfunc = Digest::SHA1.new
 
-        #media_file = GitMedia.media_path_from_shanum(sha_info)
-
-
-        tempfile = Tempfile.new('media')
-        tempfile.binmode
-
-        tempfile.write line
         hashfunc.update line
-        length += line.length
         while data = STDIN.read(4096)
           hashfunc.update(data)
-          tempfile.write(data)
-          length += line.length
         end
-        tempfile.close
 
-        elapsed1 = Time.now - start
-
-        #if FileTest.exist?(media_file)
-        #  #Don't need to copy anything
-        #  STDERR.puts("File already exists: #{media_file}")
-        #else
-        #  FileUtils.cp(file_path, media_file)
-        #end
-
-        #MLF: Just consume STDIN for cleanliness
-        #while data = STDIN.read(4096)
-        #  hashfunc.update(data)
-        #end
 
         sha_info = hashfunc.hexdigest
 
         blobref = GitMedia.sharef_from_shanum(sha_info)
-        STDOUT.print blobref
-        STDOUT.write("\n")
-
-        media_file = GitMedia.media_path_from_shanum(sha_info)
-
-        if FileTest.exist?(media_file)
-          #Don't need to copy anything
-          STDERR.puts("File already exists: #{media_file}")
-        else
-          FileUtils.mv(tempfile.path, media_file)
-        end
-
-
+        STDOUT.write blobref
+        STDOUT.write "\n"
       end
-
-      elapsed = Time.now - start
-      STDERR.puts("Processed media : #{file_path} -> #{sha_info} : #{elapsed.to_s} : #{elapsed1} : #{length}")
-
     end
   end
 end

@@ -17,27 +17,33 @@ module GitMedia
 
       references = {:to_expand => [], :expanded => [], :deleted => []}
       files = `git ls-tree -l -r HEAD`.split("\n")
-      files = files.map { |f| s = f.split("\t"); [s[0].split(' ').last, s[1]] }
+      files = files.map { |f| s = f.split("\t"); t=s[0].split(' '); [t.last, s[1], t[2]] }
       files = files.select { |f| f[0].to_i == media_file_ref_size.to_i } # it's the right size (MLF: Really just needs to be about right)
-      files.each do |tree_size, fname|
+      files.each do |tree_size, fname, githash|
 #        puts "== Testing: #{tree_size}, #{media_file_ref_size}, #{fname}, #{file_size}"
         file_size = File.size?(fname)
-        puts "== Testing: #{tree_size}, #{media_file_ref_size}, #{tree_size.to_i == media_file_ref_size.to_i}, #{fname}, #{file_size}"
+        type = "{unknown}"
 
+        sha = "{unknown}"
         if file_size > 0
           if file_size == tree_size.to_i
             # TODO: read in the data and verify that it's a sha + newline
             sha = File.read(fname).strip
             if GitMedia.check_ref(sha)
+              type = :to_expand
               references[:to_expand] << [fname, sha]
             end
           else
+            type = :expanded
             references[:expanded] << fname
           end
         else
           # file was deleted
+          type = :deleted
           references[:deleted] << fname
         end
+
+        puts "== Tested: #{tree_size}, #{media_file_ref_size}, #{tree_size.to_i == media_file_ref_size.to_i}, #{fname}, #{file_size}, #{type}, #{sha}, Git: #{githash} "
       end
       references
     end
@@ -46,7 +52,7 @@ module GitMedia
       if refs[:to_expand].size > 0
         puts "== Unexpanded Media =="
         refs[:to_expand].each do |file, sha|
-          puts "   " + sha[0, 8] + " " + file
+          puts "   " + sha[0, 12] + " " + file
         end
         puts
       end

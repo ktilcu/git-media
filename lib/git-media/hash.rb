@@ -15,6 +15,7 @@ module GitMedia
 
       args.each do |fname|
         file = File.new(fname)
+        file.binmode
 
         hashfunc = Digest::SHA1.new
 
@@ -34,7 +35,7 @@ module GitMedia
 
           #Unfortunately this probably already has the wrong hash, so it will look like an inbound change...
           #Or in essence, the hash of the sha_ref content and the hash of the actual content produce the same results
-          STDERR.puts("Hash of a sha_ref file #{sha}")
+          STDERR.puts("Contents of a sha_ref file  #{fname} is #{sha}")
         else
           #Cleaning a normal file
 
@@ -51,7 +52,7 @@ module GitMedia
           hx = hashfunc.hexdigest
           blobref = GitMedia.sharef_from_shanum(hx)
 
-          STDERR.puts("Hash of a file #{hx} produces #{blobref} length #{length}")
+          STDERR.puts("Hash of a file #{fname} produces #{blobref} length #{length}")
         end
 
         file.close
