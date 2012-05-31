@@ -81,10 +81,6 @@ that is. If you want to upload & delete the local cache of media files, run:
 
   $ git media clear
 
-== Config Settings
-
-  $ git config --global media.auto-download false
-
 == Notes for Windows
 It is important to switch off git smart newline character support for media files. 
 Use "-crlf" switch in .gitattributes (for example "*.mov filter=media -crlf") or config option "core.autocrlf = false".
